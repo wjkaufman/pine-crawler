@@ -24,7 +24,15 @@ app.get('/', (req, res) => {
     }
     console.log('No error!')
     var $ = cheerio.load(html)
-    let data = $('div.data-table table tbody tr')
+    $('div.data-table table tbody tr').each(function(i, elem) {
+      console.log(`i is ${i}`)
+      // for each tr, which is one class
+      $(this).children('td').each(function(j, elem2) {
+        // get td elements
+        console.log(`j is ${j}`)
+        console.log($(this).text())
+      })
+    })
     
     // for (let i = 0; i < data.length; i++) {
     //   console.log('blah')

@@ -1,6 +1,10 @@
 {
   "name": "pine-crawler",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wjkaufman/pine-crawler"
+  },
   "description": "Web crawler to get course information from a variety of sources",
   "main": "index.js",
   "scripts": {
