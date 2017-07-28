@@ -1,0 +1,22 @@
+{
+  "name": "pine-crawler",
+  "version": "0.0.1",
+  "description": "Web crawler to get course information from a variety of sources",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js --exec babel-node",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Will Kaufman",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.15.3",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
+    "nodemon": "^1.11.0"
+  }
+}
