@@ -15,7 +15,7 @@ export function saveTimetableInfo() {
 		if (err) {
 			return console.error(err)
 		}
-		var $ = cheerio.load(html)
+		const $ = cheerio.load(html)
 
 		let courses = []
 

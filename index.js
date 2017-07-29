@@ -1,5 +1,6 @@
 import express from 'express'
 import * as timetable from './timetable.js'
+import * as registrar from './registrar.js'
 const app = express()
 
 app.get('/', (req, res) => {
@@ -8,7 +9,8 @@ app.get('/', (req, res) => {
   
   console.log(timetable)
   
-  timetable.saveTimetableInfo()
+  // timetable.saveTimetableInfo()
+  registrar.getAll()
 })
 
 app.listen(8080, () => {
