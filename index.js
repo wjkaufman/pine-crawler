@@ -7,8 +7,6 @@ app.get('/', (req, res) => {
   console.log('got a request')
   res.send('Hello, world!')
   
-  console.log(timetable)
-  
   // timetable.saveTimetableInfo()
   registrar.getAll()
 })
