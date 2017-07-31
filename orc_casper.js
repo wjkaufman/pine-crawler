@@ -3,13 +3,17 @@
   expand all links in the nav, then parse course data that way
   
   using casper.js
+  
+  Using parts of Alex Beal's scraper code: https://github.com/dado3212/classy
 */
-const casper = require('casper').create({
-  // verbose: true,
-  // logLevel: 'debug'
-})
+var casperjs = require('casper')
+var fs = require('fs')
+
+var casper = casperjs.create()
 
 var baseURL = 'http://dartmouth.smartcatalogiq.com'
+var courseLinks
+var courses
 
 casper.start('http://dartmouth.smartcatalogiq.com/current/orc.aspx')
 
@@ -18,6 +22,7 @@ casper.then(function() {
 })
 
 function expand(casper) {
+  casper.echo('expanding...')
   casper.evaluate(function() {
     $('span.expandable:not(.collapsible)').click()
   })
@@ -39,14 +44,12 @@ casper.then(function() {
 casper.then(function() {
   var courseNameRegex = /([A-Za-z]{3,4}) ([0-9\.]+)/
   var courseElements = this.getElementsInfo('a').filter(function(el) {
-    return (courseNameRegex.exec(el.text) !== null && el.text.indexOf('PHYS') >= 0)
+    return (courseNameRegex.exec(el.text) !== null)
   }, this)
-  var courseLinks = courseElements.map(function(el) {
+  courseLinks = courseElements.map(function(el) {
     return (baseURL + el.attributes.href)
   })
-  this.echo(JSON.stringify(courseLinks))
+  fs.write('orc_course_links.json', JSON.stringify(courseLinks), 'w')
 })
-
-// TODO async loop through course URLs, pull info, and save
 
 casper.run()
