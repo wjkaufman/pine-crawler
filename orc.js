@@ -18,7 +18,7 @@ let totalRequests = courseURLs.length
 
 for (let i = 0; i < courseURLs.length; i++) {
   let url = courseURLs[i]
-  // if (url.indexOf('PHYS') <= 0) { // FOR DEBUGGING PURPOSES
+  // if (url.indexOf('ANTH') <= 0) { // FOR DEBUGGING PURPOSES
   //   totalRequests --
   //   continue
   // }
@@ -46,6 +46,12 @@ for (let i = 0; i < courseURLs.length; i++) {
   }, Math.random()*1000*40) // 40 seconds seems to work consistently well
 }
 
+/*
+  function to scrape all the important information from a course page
+  
+  html: the actual html of the page
+  url: url of the page
+*/
 function scrapeCoursePage(html, url) {
   
   const $ = cheerio.load(html)
@@ -60,8 +66,9 @@ function scrapeCoursePage(html, url) {
   course.instructor = $('#instructor').text()
                     .replace('Instructor','').trim()
   course.offered = $('#offered').text().replace('Offered','').trim()
+  
   // "other" is a bit tricky, and most likely to fail
-  // this gets info like prereqs, cross listed courses, etc.
+  // this gets info like prereqs, distribs, cross listed courses
   const other = $('#main').clone().children('h1, div')
                     .remove().end().text().trim().split('\n')
   let attrib = undefined
@@ -70,13 +77,34 @@ function scrapeCoursePage(html, url) {
     if (attrib === undefined) {
       attrib = other[i].trim() // set next attribute type
     } else {
-      course[courseAttribs[attrib] || attrib] = other[i] // set next attribute
-      attrib = undefined
+      if (attrib === 'Distributive and/or World Culture') {
+        // parse through distrib/WC and record it
+        const distribRegex = /([A-Za-z]){3,4}/
+        const distribWCRegex = /Dist:(([A-Za-z]{3,4}( or )?)+)(.*?)WCult:(([A-Za-z]{2,4}( or )?)+)/
+        if (distribWCRegex.exec(other[i])) {
+          // try getting both distrib and WC
+          course.distribs = distribWCRegex.exec(other[i])[1]
+          course.wc = distribWCRegex.exec(other[i])[5]
+        } else if (distribRegex.exec(other[i])) {
+          // then try just getting distrib
+          course.distribs = distribRegex.exec(other[i])[1]
+        } else {
+          // if all else fails, just get the raw info
+          course.distribs = other[i]
+        }
+      } else {
+        // set next attribute
+        course[courseAttribs[attrib] || attrib] = other[i]
+      }
+      attrib = undefined // get ready for next attribute assignment
     }
   }
-  
   return course
 }
+
+/*
+  Finally, write courses to file
+*/
 function writeCourses(courses) {
   console.log('Writing the data')
   fs.writeFile('data/orc_courses.json', JSON.stringify(courses), (err) => {
