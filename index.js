@@ -1,6 +1,7 @@
 import express from 'express'
 import * as timetable from './timetable.js'
 import * as registrar from './registrar.js'
+
 const app = express()
 
 app.get('/', (req, res) => {
