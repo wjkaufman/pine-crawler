@@ -2,7 +2,7 @@
   Going to try to follow Alex Beal's method of getting all classes:
   expand all links in the nav, then parse course data that way
   
-  using casper.js
+  using casper.js (I think this doesn't support ES6 yet)
   
   Using parts of Alex Beal's scraper code: https://github.com/dado3212/classy
 */
