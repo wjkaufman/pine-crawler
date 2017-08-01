@@ -33,7 +33,7 @@ export function saveTimetableInfo() {
 			courses[i] = course
 		})
 		// console.log(courses)
-		fs.writeFile('courses_timetable.json', JSON.stringify(courses), (err) => {
+		fs.writeFile('data/courses_timetable.json', JSON.stringify(courses), (err) => {
 			console.log('file written successfully')
 		})
 	})

@@ -14,16 +14,19 @@ console.log(`Loaded ${courseURLs.length} course urls`)
 
 let courses = []
 let coursesRecieved = 0
-let coursesErr = 0
+let totalRequests = courseURLs.length
 
 for (let i = 0; i < courseURLs.length; i++) {
   let url = courseURLs[i]
+  // if (url.indexOf('PHYS') <= 0) { // FOR DEBUGGING PURPOSES
+  //   totalRequests --
+  //   continue
+  // }
   // wait for a random amount of time (0-40 seconds)
   // so that the server doesn't freak out
   setTimeout(function() {
     request(url, (err, res, html) => {
       if (err) {
-        coursesErr ++
         return console.error(err + ` (${url})`)
       }
       
@@ -31,15 +34,16 @@ for (let i = 0; i < courseURLs.length; i++) {
       
       courses.push(course)
       coursesRecieved ++
-      console.log(`coursesRecieved: ${coursesRecieved} (/${coursesRecieved + coursesErr})`)
-      // if (coursesRecieved >= 2000) {
-      //   console.log(courses)
-      // }
+      console.log(`coursesRecieved: ${coursesRecieved} (/${totalRequests})`)
       
-      // some sort of mongodb magic here...
+      // todo write to mongodb here (probably more efficient
+      // than writing all at once)
       
+      if (coursesRecieved === totalRequests) {
+        writeCourses(courses)
+      }
     })
-  }, Math.random()*1000*40)
+  }, Math.random()*1000*40) // 40 seconds seems to work consistently well
 }
 
 function scrapeCoursePage(html, url) {
@@ -55,11 +59,13 @@ function scrapeCoursePage(html, url) {
   course.desc = $('#main > div.desc > p').text().trim()
   course.instructor = $('#instructor').text()
                     .replace('Instructor','').trim()
+  course.offered = $('#offered').text().replace('Offered','').trim()
   // "other" is a bit tricky, and most likely to fail
   // this gets info like prereqs, cross listed courses, etc.
   const other = $('#main').clone().children('h1, div')
                     .remove().end().text().trim().split('\n')
   let attrib = undefined
+  // TODO make the distribs/WC separate (match regex or something)
   for (let i = 0; i < other.length; i++) {
     if (attrib === undefined) {
       attrib = other[i].trim() // set next attribute type
@@ -71,32 +77,9 @@ function scrapeCoursePage(html, url) {
   
   return course
 }
-
-/*
-  Synchronous method to scrape course data
-*/
-
-// function requestSync(urls, i) {
-//   request(urls[i], (err, res, html) => {
-//     if (err) {
-//       return console.error(err + ` (${url})`)
-//     }
-//     const $ = cheerio.load(html)
-//     
-//     let title = $('h1').text().trim()
-//     // other stuff I can pull from this page
-//     let course = {title}
-//     courses.push(course)
-//     coursesRecieved ++
-//     console.log(`coursesRecieved: ${coursesRecieved} (/${coursesRecieved + coursesErr})`)
-//     if (i < urls.length) {
-//       requestSync(urls, i+1)
-//     }
-//   })
-// }
-// 
-// console.log('Doing the thing');
-// 
-// requestSync(courseURLs, 0)
-
-console.log('Done starting all requests')
+function writeCourses(courses) {
+  console.log('Writing the data')
+  fs.writeFile('data/orc_courses.json', JSON.stringify(courses), (err) => {
+    console.error(err)
+  })
+}
