@@ -1,6 +1,16 @@
 import fs from 'fs'
 import request from 'request'
 import cheerio from 'cheerio'
+import mongoose from 'mongoose'
+import '../models/course.js'
+
+
+mongoose.connect('mongodb://localhost/pine-crawler')
+
+const Course = mongoose.model('Course')
+
+
+// const Course = mongoose.model('Course')
 
 const courseURLs = JSON.parse(fs.readFileSync('data/orc_course_urls.json', 'utf8'))
 
@@ -39,8 +49,16 @@ for (let i = 0; i < courseURLs.length; i++) {
       // todo write to mongodb here (probably more efficient
       // than writing all at once)
       
+      Course.create(course, function (err, c) {
+        if (err) {
+          return console.error(err)
+        }
+      })
+      
+      // other stuff (to do when it's all done)
+      
       if (coursesRecieved === totalRequests) {
-        writeCourses(courses)
+        // writeCourses(courses)
       }
     })
   }, Math.random()*1000*40) // 40 seconds seems to work consistently well
@@ -106,7 +124,8 @@ function scrapeCoursePage(html, url) {
   Finally, write courses to file
 */
 function writeCourses(courses) {
-  console.log('Writing the data')
+  console.log('Writing data to file')
+  // writing to file
   fs.writeFile('data/orc_courses.json', JSON.stringify(courses), (err) => {
     console.error(err)
   })

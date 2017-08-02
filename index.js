@@ -1,6 +1,7 @@
 import express from 'express'
-import * as timetable from './timetable.js'
-import * as registrar from './registrar.js'
+import mongoose from 'mongoose'
+
+mongoose.connect('mongodb://localhost/pine-crawler')
 
 const app = express()
 
