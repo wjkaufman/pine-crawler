@@ -4,10 +4,13 @@ A Nodejs web crawler for classes at Dartmouth.
 
 ### To Do
 
-- get programs/departments [here](http://dartmouth.smartcatalogiq.com/en/current/orc/Departments-Programs-Undergraduate)
-- for each program/dept, go to div.sc-programlinks URL
-- for each course, get info, save it
-- check GOVT classes (and similarly structured)
+- Write mongoose schema, save course info to a `courses` document
+- Make nice frontend with Angular (also use pug?), have search functionality
+- Add user functionality, including
+  - D Plan construction (record what classes I'm thinking about taking when, drag and drop, etc.)
+  - Major planning (what I need, what I want to take, etc.)
+  - Interesting courses in general
+  - Export to CSV functionality (for spreadsheeting)
 
 ### Sources
 
