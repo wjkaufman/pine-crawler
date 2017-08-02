@@ -49,7 +49,7 @@ casper.then(function() {
   courseLinks = courseElements.map(function(el) {
     return (baseURL + el.attributes.href)
   })
-  fs.write('orc_course_links.json', JSON.stringify(courseLinks), 'w')
+  fs.write('data/orc_course_links.json', JSON.stringify(courseLinks), 'w')
 })
 
 casper.run()
