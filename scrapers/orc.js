@@ -62,6 +62,7 @@ for (let i = 0; i < courseURLs.length; i++) {
       
       if (coursesRecieved === totalRequests) {
         // writeCourses(courses)
+        return 0
       }
     })
   }, Math.random()*1000*40) // 40 seconds seems to work consistently well
