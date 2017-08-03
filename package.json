@@ -8,7 +8,7 @@
   "description": "Web crawler to get course information from a variety of sources",
   "main": "index.js",
   "scripts": {
-    "scrape": "babel-node scrapers/orc.js",
+    "scrape": "casperjs scrapers/orc_casper.js; babel-node scrapers/orc.js",
     "dev": "nodemon index.js --exec babel-node"
   },
   "author": "Will Kaufman",

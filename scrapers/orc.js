@@ -82,7 +82,7 @@ function scrapeCoursePage(html, url) {
   const title = $('#main > h1').text().trim().split(' ')
   course.title = title.slice(2).join(' ')
   course.subj = title[0]
-  course.num = title[1]
+  course.num = Number(title[1]) || title[1]
   course.url = url
   course.desc = $('#main > div.desc > p').text().trim()
   course.instructor = $('#instructor').text()

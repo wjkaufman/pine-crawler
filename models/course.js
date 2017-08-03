@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
 const courseSchema = new Schema({
   title: String,
   subj: String,
-  num: String, // interesting that a number should be stored as a string...
+  num: Schema.Types.Mixed, // Doesn't work for rare classes that aren't actually numbers...
   url: String,
   desc: String,
   instructor: String,

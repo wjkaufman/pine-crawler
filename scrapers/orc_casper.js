@@ -26,7 +26,7 @@ function expand(casper) {
   casper.evaluate(function() {
     $('span.expandable:not(.collapsible)').click()
   })
-  casper.wait(1000, function() {
+  casper.wait(2000, function() {
     if (this.exists('span.expandable:not(.collapsible)')) {
       expand(casper)
     } else {
@@ -49,7 +49,7 @@ casper.then(function() {
   courseLinks = courseElements.map(function(el) {
     return (baseURL + el.attributes.href)
   })
-  fs.write('data/orc_course_links.json', JSON.stringify(courseLinks), 'w')
+  fs.write('data/orc_course_urls.json', JSON.stringify(courseLinks), 'w')
 })
 
 casper.run()
