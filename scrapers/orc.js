@@ -5,7 +5,9 @@ import mongoose from 'mongoose'
 import '../models/course.js'
 
 
-mongoose.connect('mongodb://localhost/pine-crawler')
+mongoose.connect('mongodb://localhost/pine-crawler', {
+  useMongoClient: true
+})
 
 const Course = mongoose.model('Course')
 
@@ -17,6 +19,7 @@ const courseURLs = JSON.parse(fs.readFileSync('data/orc_course_urls.json', 'utf8
 const courseAttribs = {
   'Prerequisite': 'prereq',
   'Department-Specific Course Categories': 'course-cat',
+  'Cross Listed Courses': 'xlisted',
   // 'Distributive and/or World Culture': 'dist'
 }
 
@@ -97,8 +100,8 @@ function scrapeCoursePage(html, url) {
     } else {
       if (attrib === 'Distributive and/or World Culture') {
         // parse through distrib/WC and record it
-        const distribRegex = /([A-Za-z]){3,4}/
-        const distribWCRegex = /Dist:(([A-Za-z]{3,4}( or )?)+)(.*?)WCult:(([A-Za-z]{2,4}( or )?)+)/
+        const distribWCRegex = /Dist:(([A-Z]{3}( or )?)+)(; WCult:\s?(([A-Z]{1,3}( or )?)+))?/
+        const distribRegex = /^([A-Z]{3})/
         if (distribWCRegex.exec(other[i])) {
           // try getting both distrib and WC
           course.distribs = distribWCRegex.exec(other[i])[1]
