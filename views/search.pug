@@ -19,6 +19,7 @@ block content
       p
         | Distribs:
         select(ng-model='distrib')
+          option(value='') All
           option(ng-repeat='d in distribs') {{ d }}
       p
         | This is a test

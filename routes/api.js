@@ -36,4 +36,17 @@ router.get('/subjects', (req, res) => {
   })
 })
 
+router.get('/distrib-counts/:distrib', (req, res) => {
+  // TODO continue writing aggregation thing here
+  mongoose.model('Course').aggregate([
+    { $match: {distribs: {$regex: req.params.distrib }} },
+    { $group: {_id: {subj: '$subj'}, count: { $sum: 1 }}}
+  ], (err, counts) => {
+    if (err) {
+      return console.error(err)
+    }
+    res.json(counts)
+  })
+})
+
 export default router
