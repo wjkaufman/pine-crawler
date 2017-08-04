@@ -12,7 +12,7 @@ block content
   
   div(class='results' ng-controller='courseController')
     ul
-      li(ng-repeat='course in courses | filter : { num: searchNum } | filter : { desc: searchKeyword }')
+      li(ng-repeat='course in courses | filter : { num: searchNum } | keyword : searchKeyword')
         h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
         a(href='{{ course.url }}') Link to ORC page
         p {{ course.desc }}
