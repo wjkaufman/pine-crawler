@@ -28,11 +28,11 @@ block content
     hr
     //- results from search terms 
     div(class='results')
-      div(class='container')
+      div(class='container-fluid')
         div(class='row')
-          div(ng-repeat='course in courses | filter : { num: num, distribs: distrib } | keyword : searchKeyword' class='col-md-4 course')
-            h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
-            a(href='{{ course.url }}') Link to ORC page
+          div(ng-repeat='course in courses | filter : { num: num, distribs: distrib } | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
+            h4 {{ course.title }} 
+              a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
             br
             p {{ course.desc }}
             p #[strong Prerequisites]: {{ course.prereq }}
