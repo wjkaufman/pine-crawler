@@ -3,6 +3,7 @@ extends layout
 block content
   div(ng-controller='courseController')
     h1 Search Courses
+    //- search terms to parse through classes
     div(class='search')
       p
         | Subject: 
@@ -15,15 +16,20 @@ block content
       p
         | Keywords: 
         input(type='text' ng-model='searchKeyword')
-    
+      p
+        | Distribs:
+        select(ng-model='distrib')
+          option(ng-repeat='d in distribs') {{ d }}
+      p
+        | This is a test
+    //- results from search terms 
     div(class='results')
       div(class='container')
         div(class='row')
-          div(ng-repeat='course in courses | filter : { num: num } | keyword : searchKeyword' class='col-md-4 course')
+          div(ng-repeat='course in courses | filter : { num: num, distribs: distrib } | keyword : searchKeyword' class='col-md-4 course')
             h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
             a(href='{{ course.url }}') Link to ORC page
             br
             p {{ course.desc }}
             p #[strong Prerequisites]: {{ course.prereq }}
             p #[strong Distribs]: {{ course.distribs }}, WC: {{ course.wc }}
-  script(src='/javascripts/controllers/course_controller.js')
