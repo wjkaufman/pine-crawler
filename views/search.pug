@@ -24,7 +24,7 @@ block content
           option(ng-repeat='d in distribs') {{ d }}
       div(ng-if='distribCounts')
         p Other subjects with {{ distrib }} requirement
-        a(href='#' ng-repeat='s in distribCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
+        a(href='' ng-repeat='s in distribCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
     hr
     //- results from search terms 
     div(class='results')
