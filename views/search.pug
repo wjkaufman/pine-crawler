@@ -1,19 +1,26 @@
 extends layout
 
 block content
-  h1 Search Courses
-  div(class='search')
-    p
-      | Course number: 
-      input(type='text' ng-model='searchNum')
-    p
-      | Keywords: 
-      input(type='text' ng-model='searchKeyword')
-  
-  div(class='results' ng-controller='courseController')
-    ul
-      li(ng-repeat='course in courses | filter : { num: searchNum } | keyword : searchKeyword')
-        h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
-        a(href='{{ course.url }}') Link to ORC page
-        p {{ course.desc }}
+  div(ng-controller='courseController')
+    h1 Search Courses
+    div(class='search')
+      p
+        | Subject: 
+        select(ng-model='subj' ng-change='getCourseData(subj)')
+          option(ng-repeat='subject in subjects' value='{{ subject }}') {{ subject }}
+      p
+        | Course number: 
+        input(type='text' ng-model='num')
+      p
+        | Keywords: 
+        input(type='text' ng-model='searchKeyword')
+    
+    div(class='results')
+      ul
+        li(ng-repeat='course in courses | filter : { num: num } | keyword : searchKeyword')
+          h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
+          a(href='{{ course.url }}') Link to ORC page
+          p {{ course.desc }}
+          p Prerequisites: {{ course.prereq }}
+          p Distribs: {{ course.distribs }}, WC: {{ course.wc }}
   script(src='/javascripts/controllers/course_controller.js')

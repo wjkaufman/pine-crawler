@@ -90,7 +90,7 @@ function scrapeCoursePage(html, url) {
   course.offered = $('#offered').text().replace('Offered','').trim()
   
   // "other" is a bit tricky, and most likely to fail
-  // this gets info like prereqs, distribs, cross listed courses
+  // this gets info like prereq, distribs, cross listed courses
   const other = $('#main').clone().children('h1, div')
                     .remove().end().text().trim().split('\n')
   let attrib = undefined

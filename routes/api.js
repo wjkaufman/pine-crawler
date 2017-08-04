@@ -27,4 +27,13 @@ router.get('/courses', (req, res) => {
   })
 })
 
+router.get('/subjects', (req, res) => {
+  mongoose.model('Course').find().distinct('subj', (err, subjects) => {
+    if (err) {
+      return console.error(err)
+    }
+    res.json(subjects.sort())
+  })
+})
+
 export default router

@@ -15,11 +15,20 @@ angular.module('pineApp', [])
   })
   .controller('courseController', function courseController($scope, $http) {
     $scope.test = 'hello, world!!'
+    $scope.courses = []
+    
+    // get list of subjects
+    $http.get('/api/subjects')
+    .then((res) => {
+      $scope.subjects = res.data
+      console.log($scope.subjects)
+    })
     
     // get course data
-    $http.get('/api/courses?subj=PHYS')
-    .then((res) => {
-      $scope.courses = res.data
-      console.log(res.data)
-    })
+    $scope.getCourseData = function(subj) {
+      $http.get('/api/courses?subj=' + subj)
+      .then((res) => {
+        $scope.courses = res.data
+      })
+    }
   })
