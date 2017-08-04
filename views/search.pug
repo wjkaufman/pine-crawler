@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 Search Courses
+  div(class='search')
+    p
+      | Course number: 
+      input(type='text' ng-model='searchNum')
+    p
+      | Keywords: 
+      input(type='text' ng-model='searchKeyword')
+  
+  div(class='results' ng-controller='courseController')
+    ul
+      li(ng-repeat='course in courses | filter : { num: searchNum } | filter : { desc: searchKeyword }')
+        h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
+        a(href='{{ course.url }}') Link to ORC page
+        p {{ course.desc }}
+  script(src='/javascripts/controllers/course_controller.js')
