@@ -1,9 +1,11 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import path from 'path'
+import morgan from 'morgan'
 
 // routes
 import api from './routes/api'
+import index from './routes/index'
 
 // models
 import './models/course.js'
@@ -16,12 +18,11 @@ const app = express()
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'pug')
-
-app.get('/', function (req, res) {
-  res.render('index', { title: 'Pine Crawler', message: 'Hello there!' })
-})
+// for logging purposes
+app.use(morgan('combined'))
 
 app.use('/api', api)
+app.use('/', index)
 
 app.listen(8080, () => {
   console.log('App is listening on port 8080')

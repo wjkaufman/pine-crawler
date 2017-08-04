@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  div(ng-controller='courseController')
+    h1 Search Courses
+    //- search terms to parse through classes
+    div(class='search')
+      p
+        | Subject: 
+        select(ng-model='subj' ng-options='subject as subject for subject in subjects'
+               ng-change='getCourseData(subj)')
+          //- option(ng-repeat='subject in subjects'
+                 value='{{ subject }}') {{ subject }}
+      p
+        | Course number: 
+        input(type='text' ng-model='num')
+      p
+        | Keywords: 
+        input(type='text' ng-model='searchKeyword')
+      p
+        | Gen Ed Requirements: 
+        select(ng-model='distrib' ng-change='getDistribCounts()')
+          option(value='') All
+          option(ng-repeat='d in distribs') {{ d }}
+      div(ng-if='distribCounts')
+        p Other subjects with {{ distrib }} requirement
+        a(href='#' ng-repeat='s in distribCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
+    hr
+    //- results from search terms 
+    div(class='results')
+      div(class='container')
+        div(class='row')
+          div(ng-repeat='course in courses | filter : { num: num, distribs: distrib } | keyword : searchKeyword' class='col-md-4 course')
+            h4 {{ course.title }} ({{ course.subj }} {{ course.num }})
+            a(href='{{ course.url }}') Link to ORC page
+            br
+            p {{ course.desc }}
+            p #[strong Prerequisites]: {{ course.prereq }}
+            p #[strong Distribs]: {{ course.distribs }}, WC: {{ course.wc }}
