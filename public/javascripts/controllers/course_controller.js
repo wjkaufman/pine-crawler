@@ -25,8 +25,20 @@ angular.module('pineApp', [])
       $scope.subjects = res.data
     })
     
+    $scope.getDistribCounts = function() {
+      if ($scope.distrib) {
+        $http.get('/api/distrib-counts/' + $scope.distrib)
+        .then((res) => {
+          $scope.distribCounts = res.data
+        })
+      } else {
+        $scope.distribCounts = null
+      }
+    }
+    
     // get course data
     $scope.getCourseData = function(subj) {
+      $scope.subj = subj
       $http.get('/api/courses?subj=' + subj)
       .then((res) => {
         $scope.courses = res.data

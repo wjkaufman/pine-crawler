@@ -4,7 +4,6 @@ A Nodejs web crawler for classes at Dartmouth.
 
 ### To Do
 
-- Make nice frontend with Angular (also use pug?), have search functionality
 - Add user functionality, including
   - D Plan construction (record what classes I'm thinking about taking when, drag and drop, etc.)
   - Major planning (what I need, what I want to take, etc.)

@@ -7,8 +7,9 @@ block content
     div(class='search')
       p
         | Subject: 
-        select(ng-model='subj' ng-change='getCourseData(subj)')
-          option(ng-repeat='subject in subjects'
+        select(ng-model='subj' ng-options='subject as subject for subject in subjects'
+               ng-change='getCourseData(subj)')
+          //- option(ng-repeat='subject in subjects'
                  value='{{ subject }}') {{ subject }}
       p
         | Course number: 
@@ -17,12 +18,14 @@ block content
         | Keywords: 
         input(type='text' ng-model='searchKeyword')
       p
-        | Distribs:
-        select(ng-model='distrib')
+        | Gen Ed Requirements: 
+        select(ng-model='distrib' ng-change='getDistribCounts()')
           option(value='') All
           option(ng-repeat='d in distribs') {{ d }}
-      p
-        | This is a test
+      div(ng-if='distribCounts')
+        p Other subjects with {{ distrib }} requirement
+        a(href='#' ng-repeat='s in distribCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
+    hr
     //- results from search terms 
     div(class='results')
       div(class='container')

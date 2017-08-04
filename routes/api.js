@@ -45,7 +45,7 @@ router.get('/distrib-counts/:distrib', (req, res) => {
     if (err) {
       return console.error(err)
     }
-    res.json(counts)
+    res.json(counts.sort((a,b) => { return b.count - a.count }))
   })
 })
 
