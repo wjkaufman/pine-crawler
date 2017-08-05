@@ -20,7 +20,7 @@ const courseAttribs = {
   'Prerequisite': 'prereq',
   'Department-Specific Course Categories': 'course-cat',
   'Cross Listed Courses': 'xlisted',
-  // 'Distributive and/or World Culture': 'dist'
+  'Distributive and/or World Culture': 'genedreq'
 }
 
 console.log(`Loaded ${courseURLs.length} course urls`)
@@ -97,30 +97,12 @@ function scrapeCoursePage(html, url) {
   const other = $('#main').clone().children('h1, div')
                     .remove().end().text().trim().split('\n')
   let attrib = undefined
-  // TODO make the distribs/WC separate (match regex or something)
   for (let i = 0; i < other.length; i++) {
     if (attrib === undefined) {
       attrib = other[i].trim() // set next attribute type
     } else {
-      if (attrib === 'Distributive and/or World Culture') {
-        // parse through distrib/WC and record it
-        const distribWCRegex = /Dist:(([A-Z]{3}( or )?)+)(; WCult:\s?(([A-Z]{1,3}( or )?)+))?/
-        const distribRegex = /^([A-Z]{3})/
-        if (distribWCRegex.exec(other[i])) {
-          // try getting both distrib and WC
-          course.distribs = distribWCRegex.exec(other[i])[1]
-          course.wc = distribWCRegex.exec(other[i])[5]
-        } else if (distribRegex.exec(other[i])) {
-          // then try just getting distrib
-          course.distribs = distribRegex.exec(other[i])[1]
-        } else {
-          // if all else fails, just get the raw info
-          course.distribs = other[i]
-        }
-      } else {
-        // set next attribute
-        course[courseAttribs[attrib] || attrib] = other[i]
-      }
+      // set next attribute
+      course[courseAttribs[attrib] || attrib] = other[i]
       attrib = undefined // get ready for next attribute assignment
     }
   }
