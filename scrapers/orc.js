@@ -27,6 +27,7 @@ console.log(`Loaded ${courseURLs.length} course urls`)
 
 let courses = []
 let coursesRecieved = 0
+let coursesErr = 0
 let totalRequests = courseURLs.length
 
 for (let i = 0; i < courseURLs.length; i++) {
@@ -40,6 +41,7 @@ for (let i = 0; i < courseURLs.length; i++) {
   setTimeout(function() {
     request(url, (err, res, html) => {
       if (err) {
+        coursesErr ++
         return console.error(err + ` (${url})`)
       }
       
@@ -60,12 +62,13 @@ for (let i = 0; i < courseURLs.length; i++) {
       
       // other stuff (to do when it's all done)
       
-      if (coursesRecieved === totalRequests - 1) {
+      if (coursesRecieved + coursesErr === totalRequests - 1) {
         // writeCourses(courses)
+        console.log(`done scraping course URLs (${coursesErr} failed)`)
         return 0
       }
     })
-  }, Math.random()*1000*40) // 40 seconds seems to work consistently well
+  }, Math.random()*1000*80) // 40 seconds seems to work consistently well
 }
 
 /*
