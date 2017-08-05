@@ -35,5 +35,6 @@ block content
               a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
             br
             p {{ course.desc }}
+            p #[strong Offered]: {{ course.offered }}
             p #[strong Prerequisites]: {{ course.prereq }}
             p #[strong Gen Ed Reqs]: {{ course.genedreq }}
