@@ -36,10 +36,10 @@ router.get('/subjects', (req, res) => {
   })
 })
 
-router.get('/distrib-counts/:distrib', (req, res) => {
+router.get('/gened-counts/:genedreq', (req, res) => {
   // TODO continue writing aggregation thing here
   mongoose.model('Course').aggregate([
-    { $match: {distribs: {$regex: req.params.distrib }} },
+    { $match: {genedreq: {$regex: req.params.genedreq }} },
     { $group: {_id: {subj: '$subj'}, count: { $sum: 1 }}}
   ], (err, counts) => {
     if (err) {

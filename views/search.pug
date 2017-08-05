@@ -2,7 +2,7 @@ extends layout
 
 block content
   div(ng-controller='courseController')
-    h1 Search Courses
+    h1(ng-click='log()') Search Courses
     //- search terms to parse through classes
     div(class='search')
       p
@@ -19,21 +19,22 @@ block content
         input(type='text' ng-model='searchKeyword')
       p
         | Gen Ed Requirements: 
-        select(ng-model='distrib' ng-change='getDistribCounts()')
+        select(ng-model='genEdReq' ng-change='getGenEdCounts()')
           option(value='') All
-          option(ng-repeat='d in distribs') {{ d }}
-      div(ng-if='distribCounts')
-        p Other subjects with {{ distrib }} requirement
-        a(href='' ng-repeat='s in distribCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
+          option(ng-repeat='r in genedreqs' value='{{ r }}') {{ r }}
+      div(ng-if='genEdCounts')
+        p Other subjects with {{ genEdReq }} requirement
+        a(href='' ng-repeat='s in genEdCounts' ng-click='getCourseData(s._id.subj)') {{ s._id.subj }} ({{ s.count }}), 
     hr
     //- results from search terms 
     div(class='results')
       div(class='container-fluid')
         div(class='row')
-          div(ng-repeat='course in courses | filter : { num: num, distribs: distrib } | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
+          div(ng-repeat='course in courses | filter : { num: num, genedreq: genEdReq } | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
             h4 {{ course.title }} 
               a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
             br
             p {{ course.desc }}
+            p #[strong Offered]: {{ course.offered }}
             p #[strong Prerequisites]: {{ course.prereq }}
-            p #[strong Distribs]: {{ course.distribs }}, WC: {{ course.wc }}
+            p #[strong Gen Ed Reqs]: {{ course.genedreq }}

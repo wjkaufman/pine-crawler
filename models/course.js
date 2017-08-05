@@ -12,8 +12,7 @@ const courseSchema = new Schema({
   desc: String,
   instructor: String,
   offered: String,
-  distribs: String,
-  wc: String,
+  genedreq: String,
   xlisted: String,
   prereq: String
 })

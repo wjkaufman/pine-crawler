@@ -16,7 +16,7 @@ angular.module('pineApp', [])
   .controller('courseController', function courseController($scope, $http) {
     $scope.test = 'hello, world!!'
     $scope.courses = []
-    $scope.distribs = ['W', 'NW', 'CI', 'ART', 'LIT', 'TMV', 'INT',
+    $scope.genedreqs = ['W', 'NW', 'CI', 'ART', 'LIT', 'TMV', 'INT',
         'SOC', 'QDS', 'SCI', 'SLA', 'TAS', 'TLA']
     
     // get list of subjects
@@ -25,14 +25,15 @@ angular.module('pineApp', [])
       $scope.subjects = res.data
     })
     
-    $scope.getDistribCounts = function() {
-      if ($scope.distrib) {
-        $http.get('/api/distrib-counts/' + $scope.distrib)
+    $scope.getGenEdCounts = function() {
+      if ($scope.genEdReq) {
+        $http.get('/api/gened-counts/' + $scope.genEdReq)
         .then((res) => {
-          $scope.distribCounts = res.data
+          $scope.genEdCounts = res.data
         })
       } else {
-        $scope.distribCounts = null
+        $scope.genEdReq = undefined
+        $scope.genEdCounts = undefined
       }
     }
     
