@@ -30,7 +30,7 @@ block content
     div(class='results')
       div(class='container-fluid')
         div(class='row')
-          div(ng-repeat='course in courses | filter : { num: num, genedreq: genEdReq } | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
+          div(ng-repeat='course in courses | filter : { num: num } | genEdReqFilter : genEdReq | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
             h4 {{ course.title }} 
               a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
             br

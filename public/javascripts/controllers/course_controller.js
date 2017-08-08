@@ -13,6 +13,25 @@ angular.module('pineApp', [])
       }
     }
   })
+  .filter('genEdReqFilter', function() {
+    return function(courses, genEdReq) {
+      console.log(courses)
+      if (genEdReq) {
+        const charBefore = new RegExp('([A-Z])' + genEdReq);
+        const charAfter = new RegExp(genEdReq + '([A-Z])');
+        return courses.filter(function(course) {
+          if (!course.genedreq) {
+            return false
+          }
+          // split by separators and see if the req is in the array
+          let array = course.genedreq.split(/[\s:,]/)
+          return array.includes(genEdReq)
+        })
+      } else {
+        return courses
+      }
+    }
+  })
   .controller('courseController', function courseController($scope, $http) {
     $scope.test = 'hello, world!!'
     $scope.courses = []
