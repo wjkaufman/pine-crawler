@@ -31,10 +31,29 @@ block content
       div(class='container-fluid')
         div(class='row')
           div(ng-repeat='course in courses | filter : { num: num } | genEdReqFilter : genEdReq | keyword : searchKeyword' class='col-lg-4 col-md-6 course')
-            h4 {{ course.title }} 
-              a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
-            br
-            p {{ course.desc }}
-            p #[strong Offered]: {{ course.offered }}
-            p #[strong Prerequisites]: {{ course.prereq }}
-            p #[strong Gen Ed Reqs]: {{ course.genedreq }}
+            div(class='course-content' ng-hide='course.editing')
+              h4 {{ course.title }} 
+                a(href='{{ course.url }}') ({{ course.subj }} {{ course.num }})
+              br
+              p {{ course.desc }}
+              p(ng-if='course.offered') #[strong Offered]: {{ course.offered }}
+              p(ng-if='course.prereq') #[strong Prerequisites]: {{ course.prereq }}
+              p(ng-if='course.genedreq') #[strong Gen Ed Reqs]: {{ course.genedreq }}
+            div(class='course-edit' ng-show='course.editing')
+              p Title: 
+                input(type='text' ng-model='course.title')
+              p Subject: 
+                input(type='text' ng-model='course.subj')
+              p Number: 
+                input(type='text' ng-model='course.num')
+              p Description: 
+                textarea(class='form-control' ng-model='course.desc' rows='5')
+              p Offered: 
+                input(type='text' ng-model='course.offered')
+              p Prereq: 
+                input(type='text' ng-model='course.prereq')
+              p Gen Ed Req: 
+                input(type='text' ng-model='course.genedreq')
+            a(ng-hide='course.editing' href='' ng-click='course.editing = true') Edit
+            a(ng-show='course.editing' href='' ng-click='course.editing = false') Done
+            
