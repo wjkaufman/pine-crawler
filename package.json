@@ -15,6 +15,7 @@
   "author": "Will Kaufman",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "casperjs": "^1.1.4",
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.3",

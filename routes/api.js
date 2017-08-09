@@ -51,4 +51,23 @@ router.get('/gened-counts/:genedreq', (req, res) => {
   })
 })
 
+// save edits made on course
+router.put('/save-course/:courseID', (req, res) => {
+  mongoose.model('Course').update({_id: req.params.courseID}, req.body, (err, raw) => {
+    if (err) {
+      return console.error(err)
+    }
+    res.send('saved changes to course ' + req.params.courseID)
+  })
+})
+
+router.delete('/delete-course/:courseID', (req, res) => {
+  mongoose.model('Course').remove({_id: req.params.courseID}, (err, res1) => {
+    if (err) {
+      console.error(err)
+    }
+    res.send('deleted course ' + req.params.courseID)
+  })
+})
+
 export default router

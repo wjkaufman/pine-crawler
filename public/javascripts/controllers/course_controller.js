@@ -64,4 +64,20 @@ angular.module('pineApp', [])
         $scope.courses = res.data
       })
     }
+    
+    $scope.saveCourse = function(course) {
+      course.editing = false
+      course.num = Number(course.num) ? Number(course.num) : course.num
+      $http.put('/api/save-course/' + course._id, course)
+      .then((res) => {
+        console.log(res.data)
+      })
+    }
+    
+    $scope.deleteCourse = function(course) {
+      $http.delete('/api/delete-course/' + course._id)
+      .then((res) => {
+        console.log(res.data)
+      })
+    }
   })

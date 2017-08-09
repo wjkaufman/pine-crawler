@@ -55,5 +55,6 @@ block content
               p Gen Ed Req: 
                 input(type='text' ng-model='course.genedreq')
             a(ng-hide='course.editing' href='' ng-click='course.editing = true') Edit
-            a(ng-show='course.editing' href='' ng-click='course.editing = false') Done
+            a(ng-show='course.editing' href='' ng-click='saveCourse(course)') Done 
+            a(ng-show='course.editing' href='' ng-click='deleteCourse(course)') Delete
             
