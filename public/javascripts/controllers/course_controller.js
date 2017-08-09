@@ -15,7 +15,6 @@ angular.module('pineApp', [])
   })
   .filter('genEdReqFilter', function() {
     return function(courses, genEdReq) {
-      console.log(courses)
       if (genEdReq) {
         const charBefore = new RegExp('([A-Z])' + genEdReq);
         const charAfter = new RegExp(genEdReq + '([A-Z])');
@@ -24,7 +23,7 @@ angular.module('pineApp', [])
             return false
           }
           // split by separators and see if the req is in the array
-          let array = course.genedreq.split(/[\s:,]/)
+          let array = course.genedreq.split(/[\s:,;]/)
           return array.includes(genEdReq)
         })
       } else {
