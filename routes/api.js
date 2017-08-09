@@ -37,9 +37,11 @@ router.get('/subjects', (req, res) => {
 })
 
 router.get('/gened-counts/:genedreq', (req, res) => {
-  // TODO continue writing aggregation thing here
+  // mongodb query uses PCRE negative lookbehind to make sure
+  // the genedreq isn't a substring of another
+  // note: the angularjs filter uses a different method
   mongoose.model('Course').aggregate([
-    { $match: {genedreq: {$regex: req.params.genedreq }} },
+    { $match: { genedreq: { $regex: '(?<![A-Z])' + req.params.genedreq + '(?![A-Z])' } } },
     { $group: {_id: {subj: '$subj'}, count: { $sum: 1 }}}
   ], (err, counts) => {
     if (err) {
